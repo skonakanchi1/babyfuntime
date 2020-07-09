@@ -38,6 +38,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.ShowIcon = false;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseClick);
