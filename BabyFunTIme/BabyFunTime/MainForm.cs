@@ -15,8 +15,9 @@ namespace BabyFunTime
     public partial class MainForm : Form
     {
         Random rand = new Random();
-         
+        System.Drawing.Graphics graphicsObj;
        
+
 
         public MainForm()
         {
@@ -25,6 +26,7 @@ namespace BabyFunTime
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            graphicsObj = this.CreateGraphics();
             string basePath = Environment.CurrentDirectory;
             string relativePath = @"\media\background.wav";
             var path = Path.GetFullPath(basePath+relativePath);
@@ -40,15 +42,15 @@ namespace BabyFunTime
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //MessageBox.Show(e.KeyChar.ToString());
-
-            System.Drawing.Graphics graphicsObj;
-
-            graphicsObj = this.CreateGraphics();
-            Font myFont = new System.Drawing.Font("Helvetica", 40, FontStyle.Italic);
-            Brush myBrush = new SolidBrush(System.Drawing.Color.Red);
-            graphicsObj.DrawString(e.KeyChar.ToString(), myFont, myBrush, Random(rand, 0, 1000), Random(rand, 50, 1000));
+            //Font myFont = new System.Drawing.Font("Helvetica", 40, FontStyle.Italic);
+            //Brush myBrush = new SolidBrush(System.Drawing.Color.Red);
+            //graphicsObj.DrawString(e.KeyChar.ToString(), myFont, myBrush, Random(rand, 0, 1000), Random(rand, 50, 1000));
             DrawRectangle();
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                panMain.Controls.Clear();
+                
+            }
         }
 
         private void DrawRectangle()
@@ -64,14 +66,14 @@ namespace BabyFunTime
 
             switch (Random(rand,0,6))
             {
-                case 1:
-                    var round = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 20);
-                    graphicsObj.DrawRectangle(myPen, round);
-                    break;
-                case 2:
-                    Rectangle myRectangle = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 20);
-                    graphicsObj.DrawRectangle(myPen, myRectangle);
-                    break;
+                //case 1:
+                //    var round = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 20);
+                //    graphicsObj.DrawRectangle(myPen, round);
+                //    break;
+                //case 2:
+                //    Rectangle myRectangle = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 20);
+                //    graphicsObj.DrawRectangle(myPen, myRectangle);
+                //    break;
                 case 3:
                     DrawImage("peppa.png");
                     break;
@@ -84,14 +86,14 @@ namespace BabyFunTime
                 case 6:
                     DrawImage("jorge.png");
                     break;
+                                 
                 default:
-                    var dd = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 25);
-                    graphicsObj.DrawRectangle(myPen, dd);
+                    //var dd = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 25);
+                    //graphicsObj.DrawRectangle(myPen, dd);
+                    DrawImage("peppa.png");
                     break;
             }
            
-           // graphicsObj.DrawPolygon(myPen, myRectangle);
-            
         }
 
         public static int Random(Random rand, int min, int max)
@@ -101,14 +103,22 @@ namespace BabyFunTime
 
         private void DrawImage(string imageName)
         {
-            Graphics graphicsObj;
-            graphicsObj = this.CreateGraphics();
             string basePath = Environment.CurrentDirectory;
             string relativePath = @"\media\"+ imageName;
             var path = Path.GetFullPath(basePath + relativePath);
-            Image image2 = Image.FromFile(path);
-            // Draw the image.
-            graphicsObj.DrawImage(image2, Random(rand, 0, 1000), Random(rand, 0, 1000));
+            PictureBox image2 =new PictureBox();
+            image2.ImageLocation =path ;
+            image2.Location = new Point(Random(rand, 0, 1000), Random(rand, 0, 1000));
+            image2.Size = new Size(300, 300);
+            // Draw the image.9++
+            panMain.Controls.Add(image2);
+
+           //graphicsObj.DrawImage(image2, Random(rand, 0, 1000), Random(rand, 0, 1000));
+        }
+
+        private void panMain_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
