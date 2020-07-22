@@ -22,6 +22,8 @@ namespace BabyFunTime
         public MainForm()
         {
             InitializeComponent();
+            timer1.Interval = 1000;
+            timer1.Tick += new EventHandler(timer1_Tick);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -32,7 +34,8 @@ namespace BabyFunTime
             var path = Path.GetFullPath(basePath+relativePath);
             SoundPlayer simpleSound = new SoundPlayer(path);
             simpleSound.PlayLooping();
-
+            pictureBox1.Show();
+            timer1.Start();
         }
 
         private void MainForm_MouseClick(object sender, MouseEventArgs e)
@@ -55,16 +58,16 @@ namespace BabyFunTime
 
         private void DrawRectangle()
         {
-            Graphics graphicsObj;
+            //Graphics graphicsObj;
 
-            graphicsObj = this.CreateGraphics();
+            //graphicsObj = this.CreateGraphics();
 
-            Pen myPen = new Pen(System.Drawing.Color.Red, 8);
+            //Pen myPen = new Pen(System.Drawing.Color.Red, 8);
 
            
             // myRectangle = new Rectangle(20, 20, Random(rand, 0, 500), Random(rand, 50, 500));
 
-            switch (Random(rand,0,6))
+            switch (Random(rand,0,4))
             {
                 //case 1:
                 //    var round = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 20);
@@ -75,22 +78,22 @@ namespace BabyFunTime
                 //    graphicsObj.DrawRectangle(myPen, myRectangle);
                 //    break;
                 case 3:
-                    DrawImage("peppa.png");
+                    DrawImage("peppa.gif");
                     break;
                 case 4:
-                    DrawImage("Daddy_Pig.png");
+                    DrawImage("music.gif");
                     break;
                 case 5:
-                    DrawImage("Mummy_Pig.png");
-                    break;
-                case 6:
-                    DrawImage("jorge.png");
-                    break;
+                    DrawImage("jorge.gif");
+                   break;
+                //case 6:
+                //    DrawImage("jorge.png");
+                //    break;
                                  
                 default:
                     //var dd = new Rectangle(Random(rand, 0, 1000), Random(rand, 50, 1000), 25, 25);
                     //graphicsObj.DrawRectangle(myPen, dd);
-                    DrawImage("peppa.png");
+                    DrawImage("music.gif");
                     break;
             }
            
@@ -110,15 +113,27 @@ namespace BabyFunTime
             image2.ImageLocation =path ;
             image2.Location = new Point(Random(rand, 0, 1000), Random(rand, 0, 1000));
             image2.Size = new Size(300, 300);
+            image2.SizeMode = PictureBoxSizeMode.StretchImage;
             // Draw the image.9++
             panMain.Controls.Add(image2);
 
            //graphicsObj.DrawImage(image2, Random(rand, 0, 1000), Random(rand, 0, 1000));
         }
 
-        private void panMain_Paint(object sender, PaintEventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
+            foreach (var item in panMain.Controls)
+            {
+                var picturebox =(PictureBox) item;
+                int x = picturebox.Location.X;
+                int y = picturebox.Location.Y;
 
+                picturebox.Location = new Point(x + 50, y-25);
+
+                if (x > this.Width)
+                    timer1.Stop();
+            }
+            
         }
     }
 }
